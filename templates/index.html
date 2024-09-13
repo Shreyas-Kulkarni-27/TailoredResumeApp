@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Tailor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Tailor</h1>
+    <textarea id="jd" placeholder="Enter the job description here"></textarea>
+    <textarea id="resume" placeholder="Enter your resume here"></textarea>
+    <button onclick="tailorResume()">Tailor Resume</button>
+    <div id="output"></div>
+
+    <script>
+        function tailorResume() {
+            $('#output').text('Processing...');
+            $.ajax({
+                url: '/tailor_resume',
+                method: 'POST',
+                data: {
+                    jd: $('#jd').val(),
+                    resume: $('#resume').val()
+                },
+                success: function(response) {
+                    $('#output').text(response.tailored_resume);
+                },
+                error: function(xhr, status, error) {
+                    $('#output').text('Error: ' + error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
